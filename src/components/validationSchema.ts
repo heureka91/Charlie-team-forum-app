@@ -1,37 +1,47 @@
-<<<<<<< HEAD
 // validationSchema.ts
 import * as Yup from 'yup';
 import passwordValidator from './passwordValidator';
 
 const validationSchema = Yup.object({
-    username: Yup.string().email('Érvénytelen email cím').required('Kötelező mező'),
+    username: Yup.string()
+        .email('Érvénytelen email cím')
+        .required('Kötelező mező'),
     password: Yup.string()
-        .test('password-test', 'A jelszónak legalább 8 karakter hosszúnak kell lennie legalább egy számmal és 1 kisbetűvel', passwordValidator)
+        .test('password-test', 'A jelszónak legalább 8 karakter hosszúnak kell lennie, és tartalmaznia kell legalább egy kisbetűt, egy nagybetűt, egy számot és egy speciális karaktert.',
+            value => passwordValidator(value)
+        )
         .required('Kötelező mező'),
     passwordConfirm: Yup.string()
         .oneOf([Yup.ref('password')], 'A két jelszó nem egyezik meg')
         .required('Kötelező mező'),
-    firstName: Yup.string().required('Kötelező mező'),
-    lastName: Yup.string().required('Kötelező mező'),
+    firstName: Yup.string()
+        .required('Kötelező mező'),
+    lastName: Yup.string()
+        .required('Kötelező mező'),
+    homeAddress: Yup.object().shape({
+        name: Yup.string()
+            .required('Kötelező mező'),
+        country: Yup.string()
+            .required('Kötelező mező'),
+        city: Yup.string()
+            .required('Kötelező mező'),
+        street: Yup.string()
+            .required('Kötelező mező'),
+        zip: Yup.string()
+            .required('Kötelező mező'),
+    }),
+    notificationAddress: Yup.object().shape({
+        name: Yup.string()
+            .required('Kötelező mező'),
+        country: Yup.string()
+            .required('Kötelező mező'),
+        city: Yup.string()
+            .required('Kötelező mező'),
+        street: Yup.string()
+            .required('Kötelező mező'),
+        zip: Yup.string()
+            .required('Kötelező mező'),
+    })
 });
 
 export default validationSchema;
-=======
-// validationSchema.ts
-import * as Yup from 'yup';
-import passwordValidator from './passwordValidator';
-
-const validationSchema = Yup.object({
-    username: Yup.string().email('Érvénytelen email cím').required('Kötelező mező'),
-    password: Yup.string()
-        .test('password-test', 'A jelszónak legalább 8 karakter hosszúnak kell lennie legalább egy számmal és 1 kisbetűvel', passwordValidator)
-        .required('Kötelező mező'),
-    passwordConfirm: Yup.string()
-        .oneOf([Yup.ref('password')], 'A két jelszó nem egyezik meg')
-        .required('Kötelező mező'),
-    firstName: Yup.string().required('Kötelező mező'),
-    lastName: Yup.string().required('Kötelező mező'),
-});
-
-export default validationSchema;
->>>>>>> 8a41e603a73576420e5cce7727e64d81b17dcdd4

@@ -1,17 +1,15 @@
-<<<<<<< HEAD
 // passwordValidator.ts
-const passwordValidator = (value: string | undefined) => {
+
+const passwordValidator = (value: string | undefined): boolean => {
     if (!value) return false;
-    return value.length >= 8 && /\d/.test(value) && /[a-z]/.test(value);
+    return (
+        value.length >= 8 &&
+        /[a-z]/.test(value) && // Check for at least one lowercase letter
+        /[A-Z]/.test(value) && // Check for at least one uppercase letter
+        /\d/.test(value) && // Check for at least one number
+        /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value) // Check for at least one special character
+    );
 };
 
 export default passwordValidator;
-=======
-// passwordValidator.ts
-const passwordValidator = (value: string | undefined) => {
-    if (!value) return false;
-    return value.length >= 8 && /\d/.test(value) && /[a-z]/.test(value);
-};
 
-export default passwordValidator;
->>>>>>> 8a41e603a73576420e5cce7727e64d81b17dcdd4
