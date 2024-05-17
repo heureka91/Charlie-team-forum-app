@@ -7,7 +7,9 @@ const validationSchema = Yup.object({
         .email('Érvénytelen email cím')
         .required('Kötelező mező'),
     password: Yup.string()
-        .test('password-test', 'A jelszónak legalább 8 karakter hosszúnak kell lennie, és tartalmaznia kell legalább egy kisbetűt, egy nagybetűt, egy számot és egy speciális karaktert.',
+        .test(
+            'password-test',
+            'A jelszónak legalább 8 karakter hosszúnak kell lennie, és tartalmaznia kell legalább egy kisbetűt, egy nagybetűt, egy számot és egy speciális karaktert.',
             value => passwordValidator(value)
         )
         .required('Kötelező mező'),
@@ -18,30 +20,6 @@ const validationSchema = Yup.object({
         .required('Kötelező mező'),
     lastName: Yup.string()
         .required('Kötelező mező'),
-    homeAddress: Yup.object().shape({
-        name: Yup.string()
-            .required('Kötelező mező'),
-        country: Yup.string()
-            .required('Kötelező mező'),
-        city: Yup.string()
-            .required('Kötelező mező'),
-        street: Yup.string()
-            .required('Kötelező mező'),
-        zip: Yup.string()
-            .required('Kötelező mező'),
-    }),
-    notificationAddress: Yup.object().shape({
-        name: Yup.string()
-            .required('Kötelező mező'),
-        country: Yup.string()
-            .required('Kötelező mező'),
-        city: Yup.string()
-            .required('Kötelező mező'),
-        street: Yup.string()
-            .required('Kötelező mező'),
-        zip: Yup.string()
-            .required('Kötelező mező'),
-    })
 });
 
 export default validationSchema;

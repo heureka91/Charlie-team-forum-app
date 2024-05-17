@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { Button, ButtonGroup } from '@chakra-ui/react';
 import validationSchema from './validationSchema';
@@ -139,7 +138,7 @@ const RegistrationForm: React.FC = () => {
                 </div>
                 {error && <p style={{ color: 'red', textAlign: 'center', marginTop: '10px' }}>{error}</p>}
                 <ButtonGroup>
-                    <Button type="submit" colorScheme="green" width="100%" isDisabled={!formik.isValid || formik.isSubmitting}>
+                    <Button type="submit" colorScheme="green" width="100%" isLoading={formik.isSubmitting} isDisabled={!formik.isValid || formik.isSubmitting}>
                         Regisztráció
                     </Button>
                     <Button type="button" colorScheme="red" width="100%" onClick={() => formik.resetForm()}>
