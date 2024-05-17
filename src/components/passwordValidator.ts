@@ -12,4 +12,3 @@ const passwordValidator = (value: string | undefined): boolean => {
 };
 
 export default passwordValidator;
-

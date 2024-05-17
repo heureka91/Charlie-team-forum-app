@@ -1,4 +1,3 @@
-// components/UpdateUserForm.tsx
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -81,7 +80,7 @@ const UpdateUserForm: React.FC = () => {
                 if (response.ok) {
                     const data: User = await response.json();
                     setUser(data);
-                    alert('Adatok sikeresen frissítve!'); // Optional: Show a success message
+                    alert('Adatok sikeresen frissítve!');
                     navigate('/profile');
                 } else {
                     const errorData = await response.json();
