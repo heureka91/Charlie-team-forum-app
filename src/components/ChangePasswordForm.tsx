@@ -1,3 +1,4 @@
+// src/ChangePasswordForm.tsx
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -43,7 +44,7 @@ const ChangePasswordForm: React.FC = () => {
             }
 
             try {
-                const response = await fetch('http://localhost:5000/user/login', {
+                const response = await fetch('http://localhost:5000/user/change-password', {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',

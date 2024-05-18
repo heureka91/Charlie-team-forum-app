@@ -1,5 +1,4 @@
 // src/passwordValidator.ts
-
 const passwordValidator = (value: string | undefined): boolean => {
     if (!value) return false;
     return (

@@ -1,3 +1,4 @@
+// src/Profile.tsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, Heading, Text, useToast, Spinner } from '@chakra-ui/react';
