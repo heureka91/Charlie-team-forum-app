@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@chakra-ui/react';
+import { Box, Button, Heading, Text, useToast, Spinner } from '@chakra-ui/react';
 
 interface User {
     email: string;
@@ -13,6 +13,7 @@ const Profile: React.FC = () => {
     const [user, setUser] = useState<User | null>(null);
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
+    const toast = useToast();
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -52,7 +53,7 @@ const Profile: React.FC = () => {
         navigate('/login');
     };
 
-    const handleUpdate = () => {
+    const handleUpdateUser = () => {
         navigate('/update');
     };
 
@@ -61,29 +62,37 @@ const Profile: React.FC = () => {
     };
 
     if (error) {
-        return <p>{error}</p>;
+        return (
+            <Box maxWidth="400px" margin="auto" padding="20px">
+                <Text color="red.500">{error}</Text>
+            </Box>
+        );
     }
 
     if (!user) {
-        return <p>Adatok betöltése...</p>;
+        return (
+            <Box maxWidth="400px" margin="auto" padding="20px">
+                <Spinner size="xl" />
+            </Box>
+        );
     }
 
     return (
-        <div style={{ maxWidth: '400px', margin: 'auto', padding: '20px', border: '1px solid #ccc', borderRadius: '5px' }}>
-            <h2 style={{ textAlign: 'center' }}>Profil Oldal</h2>
-            <p><strong>Email:</strong> {user.email}</p>
-            <p><strong>Keresztnév:</strong> {user.firstName}</p>
-            <p><strong>Vezetéknév:</strong> {user.lastName}</p>
-            <Button colorScheme="blue" width="100%" onClick={handleUpdate} style={{ marginBottom: '10px' }}>
-                Adatok Módosítása
+        <Box maxWidth="400px" margin="auto" padding="20px" border="1px solid #ccc" borderRadius="5px">
+            <Heading as="h2" textAlign="center" mb={4}>Profil Oldal</Heading>
+            <Text><strong>Email:</strong> {user.email}</Text>
+            <Text><strong>Keresztnév:</strong> {user.firstName}</Text>
+            <Text><strong>Vezetéknév:</strong> {user.lastName}</Text>
+            <Button colorScheme="blue" width="100%" mt={4} onClick={handleUpdateUser}>
+                Személyes adatok módosítása
             </Button>
-            <Button colorScheme="blue" width="100%" onClick={handleChangePassword} style={{ marginBottom: '10px' }}>
-                Jelszó Módosítása
+            <Button colorScheme="blue" width="100%" mt={4} onClick={handleChangePassword}>
+                Jelszó módosítása
             </Button>
-            <Button colorScheme="red" width="100%" onClick={handleLogout}>
+            <Button colorScheme="red" width="100%" mt={4} onClick={handleLogout}>
                 Kilépés
             </Button>
-        </div>
+        </Box>
     );
 };
 

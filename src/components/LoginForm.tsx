@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
-import { Button, ButtonGroup } from '@chakra-ui/react';
+import { useToast } from '@chakra-ui/react';
+import LoginFormView from './LoginFormView';
 
 const LoginForm: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const toast = useToast();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -32,6 +35,7 @@ const LoginForm: React.FC = () => {
         validationSchema,
         onSubmit: async (values) => {
             setError(null);
+            setLoading(true);
             try {
                 const response = await fetch('http://localhost:5000/user/login', {
                     method: 'POST',
@@ -44,6 +48,13 @@ const LoginForm: React.FC = () => {
                 if (response.ok) {
                     const data = await response.json();
                     localStorage.setItem('token', data.accessToken);
+                    toast({
+                        title: 'Sikeres bejelentkezés',
+                        description: 'Sikeresen bejelentkeztél!',
+                        status: 'success',
+                        duration: 5000,
+                        isClosable: true,
+                    });
                     navigate('/profile');
                 } else {
                     const errorData = await response.json();
@@ -59,57 +70,30 @@ const LoginForm: React.FC = () => {
             } catch (err) {
                 if (err instanceof Error) {
                     setError(err.message);
+                    toast({
+                        title: 'Hiba történt',
+                        description: err.message,
+                        status: 'error',
+                        duration: 5000,
+                        isClosable: true,
+                    });
                 } else {
                     setError('Ismeretlen hiba történt.');
+                    toast({
+                        title: 'Hiba történt',
+                        description: 'Ismeretlen hiba történt.',
+                        status: 'error',
+                        duration: 5000,
+                        isClosable: true,
+                    });
                 }
+            } finally {
+                setLoading(false);
             }
         },
     });
 
-    return (
-        <div style={{ maxWidth: '400px', margin: 'auto', padding: '20px', border: '1px solid #ccc', borderRadius: '5px' }}>
-            <h2 style={{ textAlign: 'center' }}>Belépés</h2>
-            <form onSubmit={formik.handleSubmit}>
-                <div style={{ marginBottom: '15px' }}>
-                    <input
-                        type="email"
-                        name="username"
-                        placeholder="Felhasználónév"
-                        value={formik.values.username}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', color: 'black', backgroundColor: '#e0e0e0' }}
-                    />
-                    {formik.touched.username && formik.errors.username && (
-                        <div style={{ color: 'red' }}>{formik.errors.username}</div>
-                    )}
-                </div>
-                <div style={{ marginBottom: '15px' }}>
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="Jelszó"
-                        value={formik.values.password}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', color: 'black', backgroundColor: '#e0e0e0' }}
-                    />
-                    {formik.touched.password && formik.errors.password && (
-                        <div style={{ color: 'red' }}>{formik.errors.password}</div>
-                    )}
-                </div>
-                {error && <p style={{ color: 'red', textAlign: 'center', marginTop: '10px' }}>{error}</p>}
-                <ButtonGroup>
-                    <Button type="submit" colorScheme="green" width="100%" isDisabled={!formik.isValid || formik.isSubmitting}>
-                        Belépés
-                    </Button>
-                </ButtonGroup>
-                <p style={{ textAlign: 'center', marginTop: '10px' }}>
-                    Nincs fiókod? <a href="/register">Regisztráció</a>
-                </p>
-            </form>
-        </div>
-    );
+    return <LoginFormView formik={formik} error={error} loading={loading} />;
 };
 
 export default LoginForm;

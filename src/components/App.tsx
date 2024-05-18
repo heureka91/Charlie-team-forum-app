@@ -7,15 +7,29 @@ import Profile from './Profile';
 import UpdateUserForm from './UpdateUserForm';
 import ChangePasswordForm from './ChangePasswordForm';
 
+// Mock authentication function
+const isAuthenticated = () => {
+    return !!localStorage.getItem('token');
+};
+
 const App: React.FC = () => (
     <ChakraProvider>
         <Router>
             <Routes>
                 <Route path="/register" element={<RegistrationForm />} />
                 <Route path="/login" element={<LoginForm />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/update" element={<UpdateUserForm />} />
-                <Route path="/change-password" element={<ChangePasswordForm />} />
+                <Route
+                    path="/profile"
+                    element={isAuthenticated() ? <Profile /> : <Navigate to="/login" />}
+                />
+                <Route
+                    path="/update"
+                    element={isAuthenticated() ? <UpdateUserForm /> : <Navigate to="/login" />}
+                />
+                <Route
+                    path="/change-password"
+                    element={isAuthenticated() ? <ChangePasswordForm /> : <Navigate to="/login" />}
+                />
                 <Route path="*" element={<Navigate to="/login" />} />
             </Routes>
         </Router>
