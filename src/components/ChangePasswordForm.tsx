@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@chakra-ui/react';
-import ChangePasswordFormView from './ChangePasswordFormView'; // Ensure the correct import path
+import ChangePasswordFormView from './ChangePasswordFormView';
 
 const ChangePasswordForm: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
