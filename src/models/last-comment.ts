@@ -4,5 +4,5 @@ export interface lastComment {
     id?: string;
     message: string;
     createdAt: Date;
-    user: user[];
+    user: user;
 }

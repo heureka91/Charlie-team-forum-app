@@ -6,7 +6,7 @@ export interface forum {
     title: string;
     description: string;
     createdAt: Date;
-    createdBy: createdBy[];
+    createdBy: createdBy;
     commentsCount: number;
-    lastComment: lastComment[];
+    lastComment: lastComment;
 }
