@@ -17,14 +17,14 @@ export const Forum: React.FC<ForumProps> = ({ forum }) => {
                     <Text fontSize="md">
                         {forum.description}
                     </Text>
-                    <Text fontSize="sm">
-                        {forum.createdBy.firstName} {forum.createdBy.lastName}
-                    </Text>
-                    <Text>
-                        {forum.lastComment.createdAt.getUTCDate()}
+                    <Text fontSize="md">
+                        Fórum készítője: {forum.createdBy.firstName} {forum.createdBy.lastName}
                     </Text>
                     <Text fontSize="sm">
-                        {forum.lastComment.user.firstName} {forum.lastComment.user.lastName}
+                        Utolsó komment időpontja: {forum.lastComment.createdAt.getUTCDate()}
+                    </Text>
+                    <Text fontSize="md">
+                        Utolsó kommentet létrehozta: {forum.lastComment.user.firstName} {forum.lastComment.user.lastName}
                     </Text>
                     <Text fontSize="sm">
                         Kommentek száma: {forum.commentsCount}
