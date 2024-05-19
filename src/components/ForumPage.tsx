@@ -3,7 +3,7 @@ import { Forum } from "../models/forum";
 import { Box } from "@chakra-ui/react";
 import { ForumList } from "./ForumList";
 
-export const ForumPage = () => {
+const ForumPage = () => {
     const [forums, setForums] = useState<Forum[]>([])
 
     useEffect(() => {
@@ -23,3 +23,5 @@ export const ForumPage = () => {
         {forums.length > 0 ? <ForumList forums={forums} /> : null}
     </Box>
 }
+
+export default ForumPage
