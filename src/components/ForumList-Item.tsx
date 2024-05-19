@@ -1,12 +1,12 @@
 import { Flex, Text, Heading, LinkBox, LinkOverlay } from "@chakra-ui/react"
-import React from "react"
-import { forum } from "../models/forum-props"
+import React, { FC } from "react"
+import { Forum } from "../models/forum";
 
 interface ForumProps {
-    forum: forum;
+    forum: Forum;
 }
 
-export const Forum: React.FC<ForumProps> = ({ forum }) => {
+export const ForumListItem: FC<ForumProps> = ({ forum }) => {
     return <LinkBox>
         <Flex justifyContent="space-between" opacity={0.85}>
             <LinkOverlay href={`/forum/${forum.id}`}>

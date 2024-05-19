@@ -1,7 +1,7 @@
 import { createdBy } from "./created-by";
 import { lastComment } from "./last-comment";
 
-export interface forum {
+export interface Forum {
     id?: string;
     title: string;
     description: string;

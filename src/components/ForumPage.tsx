@@ -1,0 +1,22 @@
+import React, { useEffect, useState } from "react";
+import { Forum } from "../models/forum";
+import { Box } from "@chakra-ui/react";
+import { ForumList } from "./ForumList";
+
+export const ForumPage = () => {
+    const [forums, setForums] = useState<Forum[]>([])
+
+    useEffect(() => {
+        const getForums = async() => {
+            const response = await fetch("http://localhost:5000/forums");
+            const forumsJson = await response.json();
+            setForums(forumsJson);
+        }
+
+        getForums();
+    }, [])
+
+    return <Box width="full" backgroundColor="Background.light">
+        {forums.length > 0 ? <ForumList forums={forums} /> : null}
+    </Box>
+}
