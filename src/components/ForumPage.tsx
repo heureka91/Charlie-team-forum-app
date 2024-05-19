@@ -10,7 +10,10 @@ export const ForumPage = () => {
         const getForums = async() => {
             const response = await fetch("http://localhost:5000/forums");
             const forumsJson = await response.json();
-            setForums(forumsJson);
+            setForums(forumsJson.data.map((forum: any) => ({
+                ...forum,
+                created_at: new Date(forum.createdAt)
+            })))
         }
 
         getForums();
