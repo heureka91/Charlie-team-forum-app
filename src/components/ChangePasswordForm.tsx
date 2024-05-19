@@ -1,15 +1,12 @@
-// src/ChangePasswordForm.tsx
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
-import { useToast } from '@chakra-ui/react';
-import ChangePasswordFormView from './ChangePasswordFormView';
+import { Button, ButtonGroup } from '@chakra-ui/react';
 
 const ChangePasswordForm: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
-    const toast = useToast();
 
     const validationSchema = Yup.object({
         oldPassword: Yup.string()
@@ -44,7 +41,7 @@ const ChangePasswordForm: React.FC = () => {
             }
 
             try {
-                const response = await fetch('http://localhost:5000/user/change-password', {
+                const response = await fetch('http://localhost:5000/user/login', {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -54,12 +51,7 @@ const ChangePasswordForm: React.FC = () => {
                 });
 
                 if (response.ok) {
-                    toast({
-                        title: "Jelszó sikeresen megváltoztatva!",
-                        status: "success",
-                        duration: 9000,
-                        isClosable: true,
-                    });
+                    alert('Jelszó sikeresen megváltoztatva!');
                     navigate('/profile');
                 } else {
                     const errorData = await response.json();
@@ -89,11 +81,61 @@ const ChangePasswordForm: React.FC = () => {
         },
     });
 
-    const handleCancel = () => {
-        navigate('/profile');
-    };
-
-    return <ChangePasswordFormView formik={formik} error={error} onCancel={handleCancel} />;
+    return (
+        <div style={{ maxWidth: '400px', margin: 'auto', padding: '20px', border: '1px solid #ccc', borderRadius: '5px' }}>
+            <h2 style={{ textAlign: 'center' }}>Jelszó Módosítása</h2>
+            <form onSubmit={formik.handleSubmit}>
+                <div style={{ marginBottom: '15px' }}>
+                    <input
+                        type="password"
+                        name="oldPassword"
+                        placeholder="Régi Jelszó"
+                        value={formik.values.oldPassword}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', color: 'black', backgroundColor: '#e0e0e0' }}
+                    />
+                    {formik.touched.oldPassword && formik.errors.oldPassword && (
+                        <div style={{ color: 'red' }}>{formik.errors.oldPassword}</div>
+                    )}
+                </div>
+                <div style={{ marginBottom: '15px' }}>
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Új Jelszó"
+                        value={formik.values.password}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', color: 'black', backgroundColor: '#e0e0e0' }}
+                    />
+                    {formik.touched.password && formik.errors.password && (
+                        <div style={{ color: 'red' }}>{formik.errors.password}</div>
+                    )}
+                </div>
+                <div style={{ marginBottom: '15px' }}>
+                    <input
+                        type="password"
+                        name="passwordConfirm"
+                        placeholder="Új Jelszó Megerősítése"
+                        value={formik.values.passwordConfirm}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', color: 'black', backgroundColor: '#e0e0e0' }}
+                    />
+                    {formik.touched.passwordConfirm && formik.errors.passwordConfirm && (
+                        <div style={{ color: 'red' }}>{formik.errors.passwordConfirm}</div>
+                    )}
+                </div>
+                {error && <p style={{ color: 'red', textAlign: 'center', marginTop: '10px' }}>{error}</p>}
+                <ButtonGroup>
+                    <Button type="submit" colorScheme="green" width="100%" isDisabled={!formik.isValid || formik.isSubmitting}>
+                        Mentés
+                    </Button>
+                </ButtonGroup>
+            </form>
+        </div>
+    );
 };
 
 export default ChangePasswordForm;
